@@ -1,0 +1,159 @@
+/* ========================================
+   Google Translate Custom Styles
+   ======================================== */
+
+/* Hide the Google Translate banner and unwanted elements */
+body {
+    top: 0 !important;
+}
+
+.skiptranslate,
+#google_translate_element,
+#google_translate_element_mobile {
+    display: none !important;
+}
+
+body > .skiptranslate {
+    display: none !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body > iframe.skiptranslate {
+    display: none !important;
+    height: 0 !important;
+}
+
+/* Remove Google Translate top banner */
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+/* Fix body margin when Google Translate is active */
+body {
+    top: 0 !important;
+    position: static !important;
+}
+
+/* Hide the powered by text */
+.goog-logo-link {
+    display: none !important;
+}
+
+.goog-te-gadget {
+    color: transparent !important;
+}
+
+.goog-te-gadget .goog-te-combo {
+    color: #333 !important;
+}
+
+/* Style the language selector to match site design */
+.goog-te-combo {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Custom language dropdown styling for desktop */
+@media only screen and (min-width: 992px) {
+    .header-top-lan .dropdown-toggle {
+        background: transparent;
+        border: none;
+        color: #2e2e2e;
+        font-size: 14px;
+        padding: 5px 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .header-top-lan .dropdown-toggle:hover {
+        color: #d4af37;
+    }
+    
+    .header-top-lan .dropdown-menu {
+        min-width: 200px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+        padding: 8px 0;
+    }
+    
+    .header-top-lan .dropdown-item {
+        padding: 10px 20px;
+        font-size: 14px;
+        color: #2e2e2e;
+        transition: all 0.2s ease;
+    }
+    
+    .header-top-lan .dropdown-item:hover {
+        background: #f5f5f5;
+        color: #d4af37;
+        padding-left: 25px;
+    }
+    
+    .header-top-lan .dropdown-item:active {
+        background: #d4af37;
+        color: #fff;
+    }
+}
+
+/* Smooth scroll behavior when changing language */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Ensure proper z-index for dropdown */
+.header-top-lan.dropdown {
+    position: relative;
+    z-index: 1000;
+}
+
+.header-top-lan .dropdown-menu {
+    z-index: 1001;
+}
+
+/* Animation for dropdown */
+.header-top-lan .dropdown-menu.show {
+    animation: slideInDown 0.3s ease-in-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading state */
+.lang-select {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lang-select:hover {
+    transform: translateX(5px);
+}
+
+/* Active language indicator */
+.header-top-lan .dropdown-item.active {
+    background: #d4af37;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Better visibility for current language text */
+#currentLanguage,
+#currentLanguageMobile {
+    font-weight: 600;
+    color: #2e2e2e;
+}
