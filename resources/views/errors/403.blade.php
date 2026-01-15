@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,8 +23,9 @@
 
         .error-container {
             background: white;
+            border: 2px solid #e0e0e0;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 60px 40px;
             max-width: 600px;
             text-align: center;
@@ -50,12 +51,8 @@
         .error-code {
             font-size: 80px;
             font-weight: 800;
-            color: #333;
+            color: #000000;
             margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .error-title {
@@ -109,11 +106,7 @@
             Our team is working to resolve this issue. Please try again later.
         </p>
         
-        <div class="contact-info">
-            <p><strong>Need assistance?</strong></p>
-            <p>Email: <a href="mailto:contact@tractorrbumper.com">contact@tractorrbumper.com</a></p>
-            <p>WhatsApp: <a href="https://wa.me/33602926393" target="_blank">+33 6 02 92 63 93</a></p>
-        </div>
+       
     </div>
 </body>
 </html>

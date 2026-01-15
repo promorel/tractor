@@ -11,12 +11,12 @@ class BlockCountries
 {
     /**
      * Liste des codes pays bloqués (ISO 3166-1 alpha-2)
-     * BJ = Bénin, NL = Pays-Bas/Netherlands/Holland, FR = France
+     * NL = Pays-Bas/Netherlands/Holland, FR = France, US = États-Unis
      */
     protected array $blockedCountries = [
-        'BJ', // Bénin
         'NL', // Pays-Bas 
         'FR', // France
+        'US', // États-Unis
     ];
 
     /**
@@ -24,21 +24,23 @@ class BlockCountries
      */
     public function handle(Request $request, Closure $next): Response
     {
-        try {
-            $geoipPath = base_path('geoip/GeoLite2-Country.mmdb');
-            
-            // Vérifier si la base de données GeoIP existe
-            if (!file_exists($geoipPath)) {
-                // Si le fichier n'existe pas, laisser passer (en développement)
-                return $next($request);
-            }
+        $geoipPath = base_path('geoip/GeoLite2-Country.mmdb');
+        
+        // Vérifier si la base de données GeoIP existe
+        if (!file_exists($geoipPath)) {
+            // Si le fichier n'existe pas, laisser passer (en développement)
+            return $next($request);
+        }
 
+        $countryCode = null;
+        
+        try {
             $reader = new Reader($geoipPath);
             
             // Récupérer la vraie IP (gère les proxies/CDN)
             $ip = $this->getRealIp($request);
             
-            // Ne bloquer QUE si on est en environnement local (localhost/127.0.0.1)
+            // Ne PAS bloquer si on est en environnement local (développement)
             if ($this->isStrictLocalhost($ip)) {
                 return $next($request);
             }
@@ -47,19 +49,21 @@ class BlockCountries
             $record = $reader->country($ip);
             $countryCode = $record->country->isoCode;
 
-            // Afficher pour debug (à retirer après tests)
-            \Log::info("IP détectée: {$ip}, Pays: {$countryCode}");
-
-            if (in_array($countryCode, $this->blockedCountries)) {
-                abort(403, 'Access denied from your country.');
-            }
+            // Log pour debug
+            \Log::info("GeoIP - IP: {$ip}, Pays: {$countryCode}");
 
         } catch (\GeoIp2\Exception\AddressNotFoundException $e) {
             // IP non trouvée dans la base → laisser passer
-            \Log::warning("GeoIP: IP {$ip} non trouvée dans la base");
+            \Log::warning("GeoIP: IP non trouvée dans la base");
         } catch (\Exception $e) {
             // Erreur technique → laisser passer mais logger
             \Log::error('GeoIP error: ' . $e->getMessage());
+        }
+
+        // BLOQUER SI LE PAYS EST DANS LA LISTE - MAINTENANT HORS DU TRY-CATCH
+        if ($countryCode && in_array($countryCode, $this->blockedCountries)) {
+            \Log::error("GeoIP BLOCAGE EFFECTIF: Pays {$countryCode} est bloqué");
+            abort(403, 'Access denied from your country.');
         }
 
         return $next($request);
